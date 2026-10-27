@@ -1,0 +1,50 @@
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.profile-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.profile-row label {
+  font-weight: 600;
+  color: #333;
+}
+
+.profile-row input,
+.profile-row select {
+  width: 100%;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+  box-sizing: border-box;
+  background: #fff;
+  color: #222;
+}
+
+.profile-row input:focus,
+.profile-row select:focus {
+  outline: none;
+  border-color: #3568d4;
+  box-shadow: 0 0 0 2px rgba(53, 104, 212, 0.12);
+}
+
+.profile-success {
+  color: #218838;
+  text-align: center;
+  margin: 8px 0 0;
+}
+
+.profile-settings {
+  display: block;
+  text-align: center;
+  margin-top: 16px;
+  text-decoration: none;
+}

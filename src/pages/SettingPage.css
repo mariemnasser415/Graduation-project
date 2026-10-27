@@ -1,0 +1,79 @@
+ .settings-card {
+  padding: 4px 24px;
+}
+
+.settings-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 0;
+  border: none;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-size: 20px;
+  text-align: right;
+  cursor: pointer;
+}
+
+.settings-row + .settings-row {
+  border-top: 1px solid var(--line);
+}
+
+/* صفوف الإشعارات واللغة ليست روابط */
+div.settings-row {
+  cursor: default;
+}
+
+.settings-value {
+  color: var(--muted);
+}
+
+/* زر الإشعارات */
+.toggle {
+  position: relative;
+  width: 60px;
+  height: 32px;
+  border: none;
+  border-radius: 999px;
+  background: var(--line);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.toggle::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s;
+}
+
+.toggle.on {
+  background: var(--brand);
+}
+
+.toggle.on::after {
+  transform: translateX(-28px);
+}
+
+/* زر تسجيل الخروج */
+.logout-button {
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+  padding: 16px 20px;
+  border: none;
+  border-radius: 12px;
+  background: var(--brand);
+  color: #fff;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+}

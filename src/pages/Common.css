@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&display=swap');
+
+:root {
+  --bg: #f5f3ef;
+  --white: #ffffff;
+  --text: #111111;
+  --muted: #8a8a8a;
+  --brand: #654f22;
+  --line: #bdbdbd;
+  --error: #b3261e;
+}
+
+.app-page {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Amiri', 'Noto Naskh Arabic', 'Times New Roman', serif;
+  direction: rtl;
+  display: flex;
+  justify-content: center;
+  padding: 32px 36px;
+  box-sizing: border-box;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.app-title {
+  margin: 0;
+  font-size: 34px;
+  font-weight: 700;
+}
+
+.app-subtitle {
+  margin: 0;
+  font-size: 20px;
+}
+
+/* زرار الرجوع الأبيض */
+.back-btn {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border: none;
+  border-radius: 16px;
+  background: var(--white);
+  color: var(--text);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+/* أيقونة بنية مربعة */
+.icon-box {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  border-radius: 16px;
+  background: var(--brand);
+  color: #fff;
+  display: grid;
+  place-items: center;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field label {
+  font-size: 20px;
+}
+
+.input {
+  width: 100%;
+  height: 60px;
+  padding: 0 24px;
+  border: 2px solid transparent;
+  border-radius: 22px;
+  background: var(--white);
+  color: var(--text);
+  font: inherit;
+  font-size: 20px;
+  text-align: right;
+  box-sizing: border-box;
+}
+
+.input::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+.input[dir='ltr']:not(:placeholder-shown) {
+  text-align: left;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+.field.has-error .input {
+  border-color: var(--error);
+}
+
+.field-error {
+  margin: 0;
+  font-size: 16px;
+  color: var(--error);
+}
+
+.btn {
+  width: 100%;
+  height: 60px;
+  border: none;
+  border-radius: 22px;
+  font: inherit;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: #fff;
+}
+
+.btn-light {
+  background: #5b451e;
+  color: var(--white);
+}
+
+.link-brand {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.link-brand:hover {
+  text-decoration: underline;
+}
+
+.alert {
+  padding: 12px 18px;
+  border-radius: 16px;
+  font-size: 18px;
+}
+
+.alert-error {
+  background: #fdecea;
+  color: var(--error);
+}
+
+.alert-success {
+  background: #e8f3e8;
+  color: #2e6b2e;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 28px;
+  padding: 6px 24px;
+}
+
+@media (max-width: 560px) {
+  .app-page {
+    padding: 24px 18px;
+  }
+  .app-title {
+    font-size: 28px;
+  }
+}

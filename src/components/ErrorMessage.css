@@ -1,0 +1,12 @@
+.error-box {
+  background: #fdecea;
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+}
+
+.error-box p {
+  margin-bottom: 12px;
+}

@@ -1,0 +1,17 @@
+.login-subtitle {
+  margin-bottom: 10px;
+}
+
+.login-forgot {
+  align-self: flex-start; /* في RTL يعني الشمال زي التصميم */
+  font-size: 18px;
+}
+
+.login-footer {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin: 8px 0 0;
+  font-size: 18px;
+  color: var(--muted);
+}
