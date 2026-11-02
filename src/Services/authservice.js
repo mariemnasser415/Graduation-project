@@ -1,7 +1,7 @@
- 
 const API_URL = 'http://localhost:5000/api/auth'
 
 export const authService = {
+
   // إنشاء حساب
   async register({ fullName, identifier, password }) {
     const res = await fetch(`${API_URL}/register`, {
@@ -19,31 +19,28 @@ export const authService = {
     return data
   },
 
-  // تسجيل الدخول
+
+  // تسجيل الدخول (مؤقت بدون Backend)
   async login({ identifier, password }) {
-    const res = await fetch(`${API_URL}/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ identifier, password }),
-    })
 
-    const data = await res.json()
+    // محاكاة اتصال بالـ API
+    await new Promise(resolve => setTimeout(resolve, 1000))
 
-    if (!res.ok) {
-      throw new Error(data.message || 'فشل تسجيل الدخول')
+    const data = {
+      success: true,
+      user: {
+        identifier: identifier
+      },
+      token: "fake-token"
     }
 
-    // حفظ بيانات المستخدم لو السيرفر بيرجعها
-    if (data.user) {
-      localStorage.setItem('user', JSON.stringify(data.user))
-    }
-
-    if (data.token) {
-      localStorage.setItem('token', data.token)
-    }
+    // حفظ بيانات المستخدم
+    localStorage.setItem('user', JSON.stringify(data.user))
+    localStorage.setItem('token', data.token)
 
     return data
   },
+
 
   // نسيت كلمة السر
   async forgotPassword({ email }) {
@@ -61,6 +58,7 @@ export const authService = {
 
     return data
   },
+
 
   // تسجيل الخروج
   logout() {
