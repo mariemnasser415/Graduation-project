@@ -10,7 +10,7 @@ import ProfilePage from './pages/ProfilePage'
 import RegisterPage from './pages/RegisterPage'
 import SettingPage from './pages/SettingPage'
 import ForgotPassword from './pages/ForgotPassword'
-
+import ContractUploadPage from './pages/ContractUploadPage'
 function App() {
   return (
     <Routes>
@@ -29,6 +29,7 @@ function App() {
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/setting" element={<SettingPage />} />
+        <Route path="/analyze" element={<ContractUploadPage />} />
       </Route>
 
       {/* أي مسار غلط يرجع للبداية */}
