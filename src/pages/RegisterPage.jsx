@@ -1,6 +1,5 @@
- import { useState } from 'react'
+import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { authService } from '../Services/authservice'
 import {
   validateFullName,
   validateIdentifier,
@@ -37,7 +36,6 @@ function RegisterPage() {
   const [serverError, setServerError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  // كل دالة بترجع نص الخطأ، أو نص فاضي لو الحقل سليم
   const validators = {
     fullName: () => validateFullName(values.fullName),
     identifier: () => validateIdentifier(values.identifier),
@@ -45,44 +43,58 @@ function RegisterPage() {
     confirm: () => validateConfirm(values.password, values.confirm),
   }
 
-  // لما المستخدمة تكتب: نحدّث القيمة ونمسح رسالة الخطأ القديمة
   const handleChange = (name) => (e) => {
     setValues((v) => ({ ...v, [name]: e.target.value }))
     if (errors[name]) setErrors((er) => ({ ...er, [name]: '' }))
     if (serverError) setServerError('')
   }
 
-  // لما تسيب الحقل: نتأكد منه
   const handleBlur = (name) => () =>
     setErrors((er) => ({ ...er, [name]: validators[name]() }))
 
-  const handleSubmit = async (e) => {
-    e.preventDefault() // يمنع الصفحة من إنها تعمل reload
+  const handleSubmit = (e) => {
+    e.preventDefault()
 
-    // نتأكد من كل الحقول مرة واحدة
     const nextErrors = Object.fromEntries(
-      Object.keys(validators).map((key) => [key, validators[key]()])
+      Object.keys(validators).map((key) => [key, validators[key]()]),
     )
     setErrors(nextErrors)
+
     if (Object.values(nextErrors).some(Boolean)) return
 
     setLoading(true)
     setServerError('')
-    try {
-      await authService.register({
-        fullName: values.fullName.trim(),
-        identifier: values.identifier.trim(),
-        password: values.password,
-      })
-      navigate('/dashboard', { replace: true }) // الـ Dashboard
-    } catch (err) {
-      setServerError(err.message)
-    } finally {
-      setLoading(false)
-    }
+
+try {
+  const identifier = values.identifier.trim().toLowerCase()
+  const users = JSON.parse(localStorage.getItem('users') || '[]')
+
+  const accountExists = users.some(
+    (user) => user.identifier.toLowerCase() === identifier,
+  )
+
+  if (accountExists) {
+    setServerError('هذا البريد الإلكتروني أو الرقم مسجل بالفعل.')
+    return
   }
 
-  // خصائص مشتركة لكل input عشان نقلل التكرار
+  const newUser = {
+    fullName: values.fullName.trim(),
+    identifier,
+    email: identifier.includes('@') ? identifier : '',
+  }
+
+  users.push(newUser)
+  localStorage.setItem('users', JSON.stringify(users))
+  localStorage.setItem('user', JSON.stringify(newUser))
+
+  navigate('/dashboard', { replace: true })
+} catch {
+  setServerError('تعذر إنشاء الحساب. حاولي مرة أخرى.')
+} finally {
+  setLoading(false)
+}}
+
   const inputProps = (name) => ({
     id: name,
     className: 'register-input',
@@ -101,10 +113,16 @@ function RegisterPage() {
 
         <form className="register-form" onSubmit={handleSubmit} noValidate>
           {serverError && (
-            <div className="register-alert" role="alert">{serverError}</div>
+            <div className="register-alert" role="alert">
+              {serverError}
+            </div>
           )}
 
-          <Field id="fullName" label="الاسم كامل" error={errors.fullName}>
+          <Field
+            id="fullName"
+            label="الاسم كامل"
+            error={errors.fullName}
+          >
             <input
               {...inputProps('fullName')}
               type="text"
@@ -113,7 +131,11 @@ function RegisterPage() {
             />
           </Field>
 
-          <Field id="identifier" label="البريد الإلكتروني أو الرقم" error={errors.identifier}>
+          <Field
+            id="identifier"
+            label="البريد الإلكتروني أو الرقم"
+            error={errors.identifier}
+          >
             <input
               {...inputProps('identifier')}
               type="text"
@@ -124,7 +146,11 @@ function RegisterPage() {
           </Field>
 
           <div className="register-row">
-            <Field id="password" label="كلمة السر" error={errors.password}>
+            <Field
+              id="password"
+              label="كلمة السر"
+              error={errors.password}
+            >
               <input
                 {...inputProps('password')}
                 type="password"
@@ -134,7 +160,11 @@ function RegisterPage() {
               />
             </Field>
 
-            <Field id="confirm" label="تأكيد كلمة السر" error={errors.confirm}>
+            <Field
+              id="confirm"
+              label="تأكيد كلمة السر"
+              error={errors.confirm}
+            >
               <input
                 {...inputProps('confirm')}
                 type="password"
@@ -146,7 +176,9 @@ function RegisterPage() {
           </div>
 
           <button type="submit" className="register-btn" disabled={loading}>
-            {loading && <span className="register-spinner" aria-hidden="true" />}
+            {loading && (
+              <span className="register-spinner" aria-hidden="true" />
+            )}
             {loading ? 'جاري إنشاء الحساب...' : 'إنشاء الحساب'}
           </button>
         </form>
