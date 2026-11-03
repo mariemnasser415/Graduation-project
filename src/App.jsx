@@ -11,6 +11,7 @@ import RegisterPage from './pages/RegisterPage'
 import SettingPage from './pages/SettingPage'
 import ForgotPassword from './pages/ForgotPassword'
 import ContractUploadPage from './pages/ContractUploadPage'
+import ResultPage from './pages/ResultPage'
 function App() {
   return (
     <Routes>
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/setting" element={<SettingPage />} />
         <Route path="/analyze" element={<ContractUploadPage />} />
+      <Route path="/analysis-results" element={<ResultPage />} />
       </Route>
 
       {/* أي مسار غلط يرجع للبداية */}
