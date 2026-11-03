@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './ContractUploadPage.css'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
@@ -12,6 +13,7 @@ function ContractUploadPage({ onAnalyze }) {
   const [previewUrl, setPreviewUrl] = useState('')
 
   const inputRef = useRef(null)
+  const navigate = useNavigate()
 
   const isPdf = file
     ? file.type === 'application/pdf' || /\.pdf$/i.test(file.name)
@@ -73,7 +75,12 @@ function ContractUploadPage({ onAnalyze }) {
   }
 
   async function handleAnalyze() {
-    if (!file || isAnalyzing) return
+  if (!onAnalyze) {
+  navigate('/analysis-results', {
+    state: { fileName: file.name },
+  })
+  return
+}
 
     setError('')
     setNotice('')
