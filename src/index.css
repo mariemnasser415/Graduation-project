@@ -32,3 +32,181 @@ body {
   color: var(--color-text);
   min-height: 100vh;
 }
+/* انتقالات هادئة لعناصر التفاعل */
+a,
+button,
+input,
+select,
+textarea {
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+/* ارتفاع بسيط للأزرار عند المرور */
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 18px rgb(70 48 18 / 18%);
+}
+
+/* تركيز واضح للحقول */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: #8b682e;
+  box-shadow: 0 0 0 4px rgb(139 104 46 / 14%);
+}
+
+/* دخول لطيف لمحتوى الصفحات */
+.layout-content > * {
+  animation: page-enter 420ms ease both;
+}
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* حركة خفيفة لخلفية التطبيق */
+.layout {
+  background-image:
+    radial-gradient(circle at 85% 12%, rgb(214 189 131 / 12%), transparent 28%),
+    radial-gradient(circle at 10% 90%, rgb(112 82 31 / 7%), transparent 25%);
+}
+
+/* احترام إعداد تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+/* الكروت ترتفع قليلًا عند المرور */
+:where(.card, .upload-card, .results-card, .profile-form) {
+  transition:
+    transform 220ms ease,
+    box-shadow 220ms ease,
+    border-color 220ms ease;
+}
+
+:where(.card, .upload-card, .results-card, .profile-form):hover {
+  transform: translateY(-4px);
+  border-color: rgb(112 82 31 / 25%);
+  box-shadow: 0 14px 30px rgb(65 47 21 / 12%);
+}
+
+/* مؤشر صغير متحرك على رابط القائمة النشط */
+.sidebar-nav a {
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-nav a::before {
+  position: absolute;
+  inset-block: 25%;
+  inset-inline-start: 0;
+  width: 3px;
+  border-radius: 4px;
+  background: #d6bd83;
+  content: '';
+  transform: scaleY(0);
+  transition: transform 180ms ease;
+}
+
+.sidebar-nav a:hover::before,
+.sidebar-nav a.active::before {
+  transform: scaleY(1);
+}
+
+/* توهج لطيف يتحرك خلف التطبيق */
+.layout {
+  background-image:
+    radial-gradient(ellipse at 80% 15%, rgb(214 189 131 / 14%), transparent 35%),
+    radial-gradient(ellipse at 15% 85%, rgb(112 82 31 / 8%), transparent 32%);
+  background-size: 140% 140%;
+  animation: background-drift 18s ease-in-out infinite alternate;
+}
+
+@keyframes background-drift {
+  from { background-position: 0% 0%; }
+  to { background-position: 100% 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .layout {
+    animation: none;
+  }
+
+  :where(.card, .upload-card, .results-card, .profile-form) {
+    transition: none;
+  }
+}
+/* دخول ناعم للعناوين */
+.app-title,
+.upload-page-header h1,
+.results-header h1,
+.register-title {
+  animation: title-enter 550ms cubic-bezier(.2, .8, .2, 1) both;
+}
+
+@keyframes title-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* لمعة خفيفة داخل الأزرار */
+button:not(:disabled) {
+  position: relative;
+  overflow: hidden;
+}
+
+button:not(:disabled)::after {
+  position: absolute;
+  top: -120%;
+  left: -35%;
+  width: 24%;
+  height: 340%;
+  background: rgb(255 255 255 / 20%);
+  content: '';
+  transform: rotate(25deg);
+  transition: left 500ms ease;
+  pointer-events: none;
+}
+
+button:not(:disabled):hover::after {
+  left: 120%;
+}
+
+/* احترام إعداد تقليل الحركة */
+@media (prefers-reduced-motion: reduce) {
+  .app-title,
+  .upload-page-header h1,
+  .results-header h1,
+  .register-title {
+    animation: none;
+  }
+
+  button:not(:disabled)::after {
+    transition: none;
+  }
+}
