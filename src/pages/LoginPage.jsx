@@ -30,7 +30,7 @@ function LoginPage() {
   }
 
   return (
-    <div className="app-page">
+    <div className="app-page login-screen">
       <form className="app-container" onSubmit={handleSubmit} noValidate>
         <div className="app-header">
           <div className="icon-box" aria-hidden="true">
@@ -42,10 +42,10 @@ function LoginPage() {
           <h1 className="app-title">مرحبا بعودتك</h1>
         </div>
 
-         {/* <p className="app-subtitle login-subtitle"></p>  */}
-         <div>    
+        {/* <p className="app-subtitle login-subtitle"></p>  */}
+        <div>
 
-         </div>
+        </div>
 
         {error && <div className="alert alert-error" role="alert">{error}</div>}
 
