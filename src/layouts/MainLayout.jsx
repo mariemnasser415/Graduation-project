@@ -1,11 +1,15 @@
-import { NavLink, Outlet } from 'react-router-dom'
+
+import { Link, NavLink, Outlet } from 'react-router-dom'
 import './MainLayout.css'
 
 function MainLayout() {
   return (
     <div className="layout">
       <aside className="sidebar">
-        <div className="sidebar-brand">LegalLens AI</div>
+
+        <Link to="/dashboard" className="sidebar-brand">
+          <img src="/legallens-logo.svg" alt="LegalLens AI" />
+        </Link>
         <nav className="sidebar-nav">
           <NavLink to="/dashboard" end>الرئيسية</NavLink>
           <NavLink to="/history">سجل العقود</NavLink>
