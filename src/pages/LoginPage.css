@@ -15,3 +15,105 @@
   font-size: 18px;
   color: var(--muted);
 }
+/* خلفية دافئة لصفحة الدخول */
+.login-screen {
+  min-height: 100vh;
+  align-items: center;
+  background:
+    radial-gradient(ellipse at 18% 15%, rgb(183 146 79 / 13%), transparent 32%),
+    radial-gradient(ellipse at 86% 88%, rgb(112 82 31 / 9%), transparent 34%),
+    #f3efe8;
+}
+
+/* لوحة نموذج الدخول */
+.login-screen .app-container {
+  width: min(100%, 540px);
+  gap: 20px;
+  padding: 44px 48px;
+  border: 1px solid rgb(164 132 73 / 28%);
+  border-radius: 26px;
+  background: rgb(255 255 255 / 88%);
+  box-shadow:
+    0 24px 60px rgb(57 41 25 / 12%),
+    0 4px 14px rgb(57 41 25 / 6%);
+  backdrop-filter: blur(8px);
+}
+
+/* الأيقونة والعنوان */
+.login-screen .icon-box {
+  width: 58px;
+  height: 58px;
+  border: 1px solid #b99a5a;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #80602d, #4e391a);
+  box-shadow: 0 7px 16px rgb(78 57 26 / 22%);
+}
+
+.login-screen .app-title {
+  color: #382a19;
+  letter-spacing: -0.5px;
+}
+
+/* الحقول */
+.login-screen .field {
+  gap: 9px;
+}
+
+.login-screen .field label {
+  color: #493719;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.login-screen .input {
+  height: 56px;
+  border: 1px solid #e6dfd3;
+  border-radius: 14px;
+  background: #fbfaf7;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.login-screen .input:focus {
+  border-color: #9a7738;
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(154 119 56 / 13%);
+}
+
+/* الزر الرئيسي */
+.login-screen .btn-primary {
+  border: 1px solid #725523;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #80602d, #523b1b);
+  box-shadow: 0 8px 18px rgb(82 59 27 / 20%);
+  font-weight: 700;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.login-screen .btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgb(82 59 27 / 28%);
+}
+
+/* الروابط أسفل النموذج */
+.login-screen .login-footer {
+  margin-top: 2px;
+  font-size: 16px;
+}
+
+.login-screen .login-forgot {
+  font-size: 16px;
+}
+
+@media (max-width: 600px) {
+  .login-screen .app-container {
+    padding: 30px 22px;
+    border-radius: 21px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .login-screen .input,
+  .login-screen .btn-primary {
+    transition: none;
+  }
+}
