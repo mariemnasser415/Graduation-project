@@ -51,3 +51,22 @@
   padding: 32px;
   max-width: 1100px;
 }
+.sidebar-brand {
+  display: block;
+  width: 100%;
+  max-width: 220px;
+  margin-bottom: 32px;
+  padding: 6px;
+}
+
+.sidebar-brand img {
+  filter: drop-shadow(0 5px 5px rgb(55 37 14 / 35%));
+  transition: transform 220ms ease, filter 220ms ease;
+}
+
+.sidebar-brand:hover img {
+  transform: translateY(-3px) scale(1.04);
+  filter: drop-shadow(0 9px 11px rgb(55 37 14 / 50%));
+}
+
+
