@@ -21,7 +21,7 @@ function DashboardPage() {
           <p>اكتشف البنود الخطرة وغير العادلة في ثوانٍ</p>
         </Link>
 
-        <Link to="/create" className="action-card">
+        <Link to="/tenant-data" className="action-card">
           <h3>إنشاء عقد</h3>
           <p>إيجار عقار أو شقة أو مفروش بخطوات بسيطة</p>
         </Link>
@@ -40,7 +40,10 @@ function DashboardPage() {
                 <strong>{contract.title}</strong>
                 <p className="muted">{contract.status}</p>
               </div>
-              <span className="risk-badge">خطورة {contract.risk}/100</span>
+
+              <span className="risk-badge">
+                خطورة {contract.risk}/100
+              </span>
             </div>
           </Card>
         ))}
