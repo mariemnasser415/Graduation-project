@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
+import { addNotification } from '../Services/notifications'
 import './Common.css'
 import './ForgotPassword.css'
 
@@ -12,28 +13,49 @@ function ForgotPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
+
+    const trimmedEmail = email.trim()
+
+    if (!/^\S+@\S+\.\S+$/.test(trimmedEmail)) {
       setError('اكتب بريد إلكتروني صحيح')
       return
     }
+
     setLoading(true)
     setError('')
+
     try {
-      await authService.forgotPassword({ email: email.trim() })
+      await authService.forgotPassword({ email: trimmedEmail })
     } catch {
       // مؤقتًا: لو الـ Backend مش شغال نكمّل لصفحة الرمز عادي
     } finally {
       setLoading(false)
     }
-    navigate('/verify-code', { state: { email: email.trim() } })
+
+    addNotification('بدأتِ خطوات إعادة تعيين كلمة السر.')
+    navigate('/verify-code', { state: { email: trimmedEmail } })
   }
 
   return (
-  <div className="app-page forgot-screen">
+    <div className="app-page forgot-screen">
       <form className="app-container" onSubmit={handleSubmit} noValidate>
         <div className="app-header">
-          <button type="button" className="back-btn" onClick={() => navigate(-1)} aria-label="رجوع">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="رجوع"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M9 6l6 6-6 6" />
             </svg>
           </button>
@@ -44,7 +66,11 @@ function ForgotPassword() {
           اكتب بريدك الإلكتروني وسنرسل لك رمز تحقق لإعادة تعيين كلمة السر.
         </p>
 
-        {error && <div className="alert alert-error" role="alert">{error}</div>}
+        {error && (
+          <div className="alert alert-error" role="alert">
+            {error}
+          </div>
+        )}
 
         <div className="field">
           <label htmlFor="email">البريد الإلكتروني</label>
@@ -56,12 +82,19 @@ function ForgotPassword() {
             placeholder="name@email.com"
             autoComplete="email"
             value={email}
-            onChange={(e) => { setEmail(e.target.value); setError('') }}
+            onChange={(e) => {
+              setEmail(e.target.value)
+              setError('')
+            }}
             disabled={loading}
           />
         </div>
 
-        <button type="submit" className="btn btn-primary forgot-send" disabled={loading}>
+        <button
+          type="submit"
+          className="btn btn-primary forgot-send"
+          disabled={loading}
+        >
           {loading ? 'جاري الإرسال...' : 'إرسال الرمز'}
         </button>
 
