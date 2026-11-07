@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
 import { addNotification } from '../Services/notifications'
 import { useLanguage } from '../LanguageContext'
@@ -24,23 +24,25 @@ function Chevron() {
 }
 
 function LinkRow({ label, to }) {
-  const navigate = useNavigate()
-
   return (
-    <button
-      type="button"
-      className="settings-row"
-      onClick={() => navigate(to)}
-    >
+    <Link to={to} className="settings-row">
       <span>{label}</span>
       <Chevron />
-    </button>
+    </Link>
   )
 }
 
 function SettingPage() {
   const navigate = useNavigate()
   const { language, setLanguage, t } = useLanguage()
+
+  const settingsLinks = [
+    { label: t('editProfile'), to: '/profile/edit' },
+    { label: t('changePassword'), to: '/forgot-password' },
+    { label: t('createContract'), to: '/tenant-data' },
+    { label: t('notifications'), to: '/notifications' },
+    { label: t('assistant'), to: '/chat' },
+  ]
 
   function handleLanguageChange(event) {
     setLanguage(event.target.value)
@@ -55,14 +57,6 @@ function SettingPage() {
     authService.logout()
     navigate('/login', { replace: true })
   }
-
-  const settingsLinks = [
-    { label: t('editProfile'), to: '/profile/edit' },
-    { label: t('changePassword'), to: '/forgot-password' },
-    { label: t('createContract'), to: '/analyze' },
-    { label: t('notifications'), to: '/notifications' },
-    { label: t('assistant'), to: '/chat' },
-  ]
 
   return (
     <div className="app-page">
