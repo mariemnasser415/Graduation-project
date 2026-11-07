@@ -21,7 +21,7 @@ function DashboardPage() {
           <p>اكتشف البنود الخطرة وغير العادلة في ثوانٍ</p>
         </Link>
 
-        <Link to="/tenant-data" className="action-card">
+        <Link to="/contract-type" className="action-card">
           <h3>إنشاء عقد</h3>
           <p>إيجار عقار أو شقة أو مفروش بخطوات بسيطة</p>
         </Link>
