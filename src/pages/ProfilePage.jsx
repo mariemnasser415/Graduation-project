@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { addNotification } from '../Services/notifications'
 import './common.css'
 import './ProfilePage.css'
 
@@ -25,6 +26,11 @@ function ProfilePage() {
     { label: 'العمر', value: user.age || 'غير مضاف' },
     { label: 'رقم الهاتف', value: user.phone || 'غير مضاف', dir: 'ltr' },
   ]
+
+  function handleEditClick() {
+    addNotification('بدأتِ تعديل بيانات الملف الشخصي.')
+    navigate('/profile/edit')
+  }
 
   return (
     <main className="app-page profile-screen" dir="rtl">
@@ -59,7 +65,7 @@ function ProfilePage() {
           <button
             className="btn btn-primary profile-edit-button"
             type="button"
-            onClick={() => navigate('/profile/edit')}
+            onClick={handleEditClick}
           >
             تعديل البيانات
           </button>
