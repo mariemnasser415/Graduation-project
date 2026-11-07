@@ -29,7 +29,7 @@ function ForgotPassword() {
   }
 
   return (
-    <div className="app-page">
+  <div className="app-page forgot-screen">
       <form className="app-container" onSubmit={handleSubmit} noValidate>
         <div className="app-header">
           <button type="button" className="back-btn" onClick={() => navigate(-1)} aria-label="رجوع">
