@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
+import { addNotification } from '../Services/notifications'
 import './Common.css'
 import './VerifyCodePage.css'
 
@@ -25,80 +26,119 @@ function VerifyCodePage() {
   const [secondsLeft, setSecondsLeft] = useState(RESEND_SECONDS)
   const inputs = useRef([])
 
-  // عدّاد إعادة الإرسال
   useEffect(() => {
     if (secondsLeft <= 0) return undefined
-    const id = setTimeout(() => setSecondsLeft((s) => s - 1), 1000)
+
+    const id = setTimeout(() => setSecondsLeft((seconds) => seconds - 1), 1000)
     return () => clearTimeout(id)
   }, [secondsLeft])
 
-  // لو الصفحة اتفتحت من غير بريد نرجع لنسيت كلمة السر
-  if (!email) return <Navigate to="/forgot-password" replace />
-
-  function focusBox(i) {
-    inputs.current[Math.min(Math.max(i, 0), CODE_LENGTH - 1)]?.focus()
+  if (!email) {
+    return <Navigate to="/forgot-password" replace />
   }
 
-  function handleChange(i, value) {
+  function focusBox(index) {
+    inputs.current[
+      Math.min(Math.max(index, 0), CODE_LENGTH - 1)
+    ]?.focus()
+  }
+
+  function handleChange(index, value) {
     const digit = value.replace(/\D/g, '').slice(-1)
-    setDigits((prev) => prev.map((d, idx) => (idx === i ? digit : d)))
+
+    setDigits((previous) =>
+      previous.map((current, currentIndex) =>
+        currentIndex === index ? digit : current,
+      ),
+    )
     setError('')
-    if (digit) focusBox(i + 1)
+
+    if (digit) focusBox(index + 1)
   }
 
-  function handleKeyDown(i, e) {
-    if (e.key === 'Backspace' && !digits[i]) {
-      focusBox(i - 1)
-    } else if (e.key === 'ArrowLeft') {
-      e.preventDefault()
-      focusBox(i - 1)
-    } else if (e.key === 'ArrowRight') {
-      e.preventDefault()
-      focusBox(i + 1)
+  function handleKeyDown(index, event) {
+    if (event.key === 'Backspace' && !digits[index]) {
+      focusBox(index - 1)
+    } else if (event.key === 'ArrowLeft') {
+      event.preventDefault()
+      focusBox(index - 1)
+    } else if (event.key === 'ArrowRight') {
+      event.preventDefault()
+      focusBox(index + 1)
     }
   }
 
-  function handlePaste(e) {
-    const pasted = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, CODE_LENGTH)
+  function handlePaste(event) {
+    const pasted = event.clipboardData
+      .getData('text')
+      .replace(/\D/g, '')
+      .slice(0, CODE_LENGTH)
+
     if (!pasted) return
-    e.preventDefault()
-    setDigits(Array.from({ length: CODE_LENGTH }, (_, i) => pasted[i] ?? ''))
+
+    event.preventDefault()
+    setDigits(
+      Array.from({ length: CODE_LENGTH }, (_, index) => pasted[index] ?? ''),
+    )
     setError('')
     focusBox(pasted.length)
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault()
+  function handleSubmit(event) {
+    event.preventDefault()
+
     const code = digits.join('')
+
     if (code.length < CODE_LENGTH) {
       setError(`اكتب الرمز كاملًا (${CODE_LENGTH} أرقام)`)
       return
     }
-    // مؤقتًا: بنعدّي على صفحة كلمة المرور الجديدة من غير ما نكلّم الـ Backend
+
+    addNotification('تم إدخال رمز التحقق والانتقال لإعادة تعيين كلمة السر.')
     navigate('/reset-password', { state: { email, code }, replace: true })
   }
+
   async function handleResend() {
-    if (secondsLeft > 0) return
-    // نصفّر الأرقام فورًا أول ما يدوس
+    if (secondsLeft > 0 || loading) return
+
     setDigits(Array(CODE_LENGTH).fill(''))
     setError('')
     setInfo('')
+    setLoading(true)
     focusBox(0)
+
     try {
       await authService.forgotPassword({ email })
       setSecondsLeft(RESEND_SECONDS)
       setInfo('تم إرسال رمز جديد إلى بريدك الإلكتروني')
+      addNotification('تم طلب إعادة إرسال رمز التحقق.')
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'تعذر إعادة إرسال الرمز.')
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-<div className="app-page verify-screen">
+    <div className="app-page verify-screen">
       <form className="app-container" onSubmit={handleSubmit} noValidate>
         <div className="app-header">
-          <button type="button" className="back-btn" onClick={() => navigate(-1)} aria-label="رجوع">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="رجوع"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M9 6l6 6-6 6" />
             </svg>
           </button>
@@ -108,37 +148,57 @@ function VerifyCodePage() {
         <p className="app-subtitle">
           أرسلنا رمزًا من {CODE_LENGTH} أرقام إلى بريدك الإلكتروني.
         </p>
-        <p className="verify-email" dir="ltr">{email}</p>
+        <p className="verify-email" dir="ltr">
+          {email}
+        </p>
 
-        {error && <div className="alert alert-error" role="alert">{error}</div>}
-        {info && <div className="alert alert-success" role="status">{info}</div>}
+        {error && (
+          <div className="alert alert-error" role="alert">
+            {error}
+          </div>
+        )}
+        {info && (
+          <div className="alert alert-success" role="status">
+            {info}
+          </div>
+        )}
 
         <div className="otp-row" dir="ltr" onPaste={handlePaste}>
-          {digits.map((digit, i) => (
+          {digits.map((digit, index) => (
             <input
-              key={i}
-              ref={(el) => { inputs.current[i] = el }}
+              key={index}
+              ref={(element) => {
+                inputs.current[index] = element
+              }}
               className={`otp-box${error ? ' otp-box-error' : ''}`}
               type="text"
               inputMode="numeric"
-              autoComplete={i === 0 ? 'one-time-code' : 'off'}
+              autoComplete={index === 0 ? 'one-time-code' : 'off'}
               maxLength={1}
               value={digit}
-              onChange={(e) => handleChange(i, e.target.value)}
-              onKeyDown={(e) => handleKeyDown(i, e)}
-              onFocus={(e) => e.target.select()}
+              onChange={(event) => handleChange(index, event.target.value)}
+              onKeyDown={(event) => handleKeyDown(index, event)}
+              onFocus={(event) => event.target.select()}
               disabled={loading}
-              aria-label={`الرقم ${i + 1} من ${CODE_LENGTH}`}
-              autoFocus={i === 0}
+              aria-label={`الرقم ${index + 1} من ${CODE_LENGTH}`}
+              autoFocus={index === 0}
             />
           ))}
         </div>
 
         <p className="verify-timer">
           {secondsLeft > 0 ? (
-            <>إعادة إرسال الرمز بعد <span dir="ltr">{formatTime(secondsLeft)}</span></>
+            <>
+              إعادة إرسال الرمز بعد{' '}
+              <span dir="ltr">{formatTime(secondsLeft)}</span>
+            </>
           ) : (
-            <button type="button" className="verify-resend" onClick={handleResend}>
+            <button
+              type="button"
+              className="verify-resend"
+              onClick={handleResend}
+              disabled={loading}
+            >
               إعادة إرسال الرمز
             </button>
           )}
