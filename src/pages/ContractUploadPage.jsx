@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { addNotification } from '../Services/notifications'
 import './ContractUploadPage.css'
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024
@@ -31,8 +32,6 @@ function ContractUploadPage({ onAnalyze }) {
       return undefined
     }
 
-    // بعض المتصفحات لا تعرض TXT إذا كان نوع الملف غير محدد،
-    // لذلك ننشئ نسخة معاينة بنوع text/plain.
     const previewFile = isTxt
       ? new Blob([file], { type: 'text/plain' })
       : file
@@ -49,9 +48,7 @@ function ContractUploadPage({ onAnalyze }) {
     setError('')
     setNotice('')
 
-    const hasSupportedExtension = /\.(pdf|docx|txt)$/i.test(
-      selectedFile.name,
-    )
+    const hasSupportedExtension = /\.(pdf|docx|txt)$/i.test(selectedFile.name)
 
     if (!hasSupportedExtension) {
       setFile(null)
@@ -75,27 +72,27 @@ function ContractUploadPage({ onAnalyze }) {
   }
 
   async function handleAnalyze() {
-  if (!onAnalyze) {
-  navigate('/analysis-results', {
-    state: { fileName: file.name },
-  })
-  return
-}
+    if (!file) return
 
     setError('')
     setNotice('')
 
-    // تمرر مي دالة onAnalyze عند ربط الصفحة بالـBackend.
+    // الصفحة غير مربوطة بخدمة التحليل بعد
     if (!onAnalyze) {
-      setNotice(
-        'الملف جاهز للتحليل. سيتم إرساله إلى الـBackend عند ربط الخدمة.',
-      )
+      addNotification(`تم اختيار العقد "${file.name}" للتحليل.`)
+      setNotice('تم تسجيل العقد. سيتم تحليله عند ربط خدمة التحليل.')
+      navigate('/analysis-results', {
+        state: { fileName: file.name },
+      })
       return
     }
 
     try {
       setIsAnalyzing(true)
       await onAnalyze(file)
+
+      addNotification(`اكتمل تحليل العقد "${file.name}" بنجاح.`)
+      setNotice('اكتمل تحليل العقد بنجاح.')
     } catch (err) {
       setError(err.message || 'تعذر تحليل الملف. حاول مرة أخرى.')
     } finally {
@@ -187,9 +184,7 @@ function ContractUploadPage({ onAnalyze }) {
 
             <div className="upload-file-info">
               <strong>{file.name}</strong>
-              <span>
-                {(file.size / (1024 * 1024)).toFixed(2)} ميجابايت
-              </span>
+              <span>{(file.size / (1024 * 1024)).toFixed(2)} ميجابايت</span>
             </div>
 
             <button
