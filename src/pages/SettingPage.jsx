@@ -1,6 +1,6 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
+import { addNotification } from '../Services/notifications'
 import './common.css'
 import './SettingPage.css'
 
@@ -8,6 +8,7 @@ const settingsLinks = [
   { label: 'تعديل البيانات', to: '/profile/edit' },
   { label: 'تغيير كلمة السر', to: '/forgot-password' },
   { label: 'إنشاء عقد الآن', to: '/analyze' },
+  { label: 'الإشعارات', to: '/notifications' },
   { label: 'المساعد الذكي', to: '/chat' },
 ]
 
@@ -46,9 +47,9 @@ function LinkRow({ label, to }) {
 
 function SettingPage() {
   const navigate = useNavigate()
-  const [notifications, setNotifications] = useState(true)
 
-  const handleLogout = () => {
+  function handleLogout() {
+    addNotification('تم تسجيل خروجك بنجاح.')
     authService.logout()
     navigate('/login', { replace: true })
   }
@@ -59,28 +60,14 @@ function SettingPage() {
         <h1 className="app-title">الإعدادات</h1>
 
         <div className="card settings-card">
-          {settingsLinks.slice(0, 3).map((link) => (
+          {settingsLinks.map((link) => (
             <LinkRow key={link.to} {...link} />
           ))}
-
-          <div className="settings-row">
-            <span>الإشعارات</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={notifications}
-              aria-label="الإشعارات"
-              className={`toggle${notifications ? ' on' : ''}`}
-              onClick={() => setNotifications((value) => !value)}
-            />
-          </div>
 
           <div className="settings-row">
             <span>اللغة</span>
             <span className="settings-value">العربية</span>
           </div>
-
-          <LinkRow {...settingsLinks[3]} />
         </div>
 
         <button
