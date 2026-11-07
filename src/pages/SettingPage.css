@@ -1,4 +1,4 @@
- .settings-card {
+.settings-card {
   padding: 4px 24px;
 }
 
@@ -7,59 +7,59 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
   padding: 18px 0;
   border: none;
-  background: none;
+  background: transparent;
   color: var(--text);
   font: inherit;
   font-size: 20px;
   text-align: right;
+}
+
+button.settings-row {
   cursor: pointer;
+  transition: color 180ms ease, background-color 180ms ease;
+}
+
+button.settings-row:hover {
+  color: var(--brand);
 }
 
 .settings-row + .settings-row {
   border-top: 1px solid var(--line);
 }
 
-/* صفوف الإشعارات واللغة ليست روابط */
+/* صف اللغة ليس رابطًا */
 div.settings-row {
   cursor: default;
 }
 
+.settings-row label {
+  cursor: default;
+}
+
+/* قائمة اللغة */
 .settings-value {
+  max-width: 160px;
+  padding: 6px 28px 6px 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: transparent;
   color: var(--muted);
-}
-
-/* زر الإشعارات */
-.toggle {
-  position: relative;
-  width: 60px;
-  height: 32px;
-  border: none;
-  border-radius: 999px;
-  background: var(--line);
+  font: inherit;
+  font-size: 17px;
+  text-align: end;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
-.toggle::after {
-  content: '';
-  position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #fff;
-  transition: transform 0.2s;
+.settings-value:hover {
+  border-color: var(--line);
 }
 
-.toggle.on {
-  background: var(--brand);
-}
-
-.toggle.on::after {
-  transform: translateX(-28px);
+.settings-value:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
 }
 
 /* زر تسجيل الخروج */
@@ -76,4 +76,31 @@ div.settings-row {
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.logout-button:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.logout-button:focus-visible,
+button.settings-row:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+@media (max-width: 560px) {
+  .settings-card {
+    padding: 4px 18px;
+  }
+
+  .settings-row {
+    font-size: 18px;
+  }
+
+  .settings-value {
+    max-width: 130px;
+    font-size: 16px;
+  }
 }
