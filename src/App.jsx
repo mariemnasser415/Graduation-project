@@ -14,6 +14,7 @@ import VerifyCodePage from './pages/VerifyCodePage'
 import ResetPasswordPage from './pages/ResetPasswordPage'
 import ContractUploadPage from './pages/ContractUploadPage'
 import ResultPage from './pages/ResultPage'
+import ProfileEditPage from './pages/ProfileEditPage'
 
 function App() {
   return (
@@ -37,6 +38,7 @@ function App() {
         <Route path="/analyze" element={<ContractUploadPage />} />
         <Route path="/analysis-results" element={<ResultPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
+        <Route path="/profile/edit" element={<ProfileEditPage />} />
       </Route>
 
       {/* أي مسار غلط يرجع للبداية */}
