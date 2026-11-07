@@ -17,7 +17,7 @@ import ResultPage from './pages/ResultPage'
 import ProfileEditPage from './pages/ProfileEditPage'
 import NotificationsPage from './pages/NotificationsPage'
 import TenantInfoPage from './pages/TenantInfoPage'
-
+import ContractTypePage from './pages/ContractTypePage'
 function App() {
   return (
     <Routes>
@@ -40,6 +40,7 @@ function App() {
         <Route path="profile/edit" element={<ProfileEditPage />} />
         <Route path="notifications" element={<NotificationsPage />} />
         <Route path="tenant-data" element={<TenantInfoPage />} />
+        <Route path="contract-type" element={<ContractTypePage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
