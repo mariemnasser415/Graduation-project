@@ -1,63 +1,174 @@
+.verify-screen {
+  min-height: 100vh;
+  align-items: center;
+  padding: 32px 18px;
+  background:
+    radial-gradient(ellipse at 18% 15%, rgb(183 146 79 / 10%), transparent 32%),
+    radial-gradient(ellipse at 86% 88%, rgb(112 82 31 / 7%), transparent 34%),
+    #f3efe8;
+}
+
+.verify-screen .app-container {
+  width: min(100%, 620px);
+  padding: 42px 48px;
+  border: 1px solid rgb(164 132 73 / 28%);
+  border-radius: 26px;
+  background: rgb(255 255 255 / 94%);
+  box-shadow:
+    0 24px 60px rgb(57 41 25 / 12%),
+    0 4px 14px rgb(57 41 25 / 6%);
+  gap: 18px;
+}
+
+.verify-screen .app-header {
+  margin-bottom: 2px;
+}
+
+.verify-screen .app-title {
+  color: #382a19;
+  font-size: 32px;
+}
+
+.verify-screen .back-btn {
+  width: 58px;
+  height: 58px;
+  border: 1px solid #b99a5a;
+  border-radius: 18px;
+  background: linear-gradient(145deg, #80602d, #4e391a);
+  color: #fff;
+  box-shadow: 0 7px 16px rgb(78 57 26 / 22%);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.verify-screen .back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgb(78 57 26 / 30%);
+}
+
+.verify-screen .app-subtitle {
+  margin: 0;
+  color: #777168;
+  font-size: 17px;
+  line-height: 1.8;
+}
+
 .verify-email {
-  margin: -6px 0 0;
-  color: var(--muted);
-  font-size: 18px;
+  margin: -8px 0 4px;
+  color: #92703a;
+  font-size: 16px;
   text-align: right;
+}
+
+.verify-screen .alert {
+  border-radius: 12px;
+  font-size: 15px;
 }
 
 .otp-row {
   display: flex;
   justify-content: center;
   gap: 12px;
-  margin: 12px 0 4px;
+  margin: 8px 0;
 }
 
 .otp-box {
-  width: 56px;
+  width: 58px;
   height: 64px;
-  border: 2px solid transparent;
-  border-radius: 16px;
-  background: var(--white);
-  color: var(--text);
+  border: 1px solid #e6dfd3;
+  border-radius: 15px;
+  background: #fbfaf7;
+  color: #493719;
   font: inherit;
-  font-size: 28px;
+  font-size: 26px;
   text-align: center;
-  box-sizing: border-box;
+  transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
 }
 
 .otp-box:focus {
+  border-color: #9a7738;
   outline: none;
-  border-color: var(--brand);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgb(154 119 56 / 13%);
 }
 
 .otp-box-error {
-  border-color: var(--error);
+  border-color: #b3261e;
 }
 
 .verify-timer {
-  margin: 8px 0;
+  margin: 0;
+  color: #777168;
+  font-size: 16px;
   text-align: center;
-  font-size: 18px;
-  color: var(--text);
 }
 
 .verify-resend {
-  background: none;
-  border: none;
   padding: 0;
+  border: 0;
+  background: none;
+  color: #765722;
   font: inherit;
-  color: var(--brand);
-  text-decoration: underline;
   cursor: pointer;
 }
 
-/* زرار "العودة" أبيض زي التصميم */
-.verify-back {
-  background: var(--white);
-  color: var(--text);
+.verify-resend:hover {
+  text-decoration: underline;
 }
 
-@media (max-width: 420px) {
-  .otp-row { gap: 8px; }
-  .otp-box { width: 46px; height: 56px; font-size: 24px; }
+.verify-screen .btn-primary {
+  min-height: 58px;
+  border: 1px solid #725523;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #80602d, #523b1b);
+  box-shadow: 0 8px 18px rgb(82 59 27 / 20%);
+  font-size: 19px;
+  font-weight: 700;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.verify-screen .btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgb(82 59 27 / 28%);
+}
+
+.verify-screen .verify-back {
+  min-height: 54px;
+  border: 1px solid #e6dfd3;
+  border-radius: 14px;
+  background: #fbfaf7;
+  color: #654f22;
+  font-size: 18px;
+}
+
+.verify-screen .verify-back:hover:not(:disabled) {
+  background: #f3efe8;
+}
+
+@media (max-width: 600px) {
+  .verify-screen .app-container {
+    padding: 30px 20px;
+    border-radius: 21px;
+  }
+
+  .verify-screen .app-title {
+    font-size: 26px;
+  }
+
+  .otp-row {
+    gap: 8px;
+  }
+
+  .otp-box {
+    width: min(12vw, 52px);
+    height: 56px;
+    font-size: 23px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .verify-screen .back-btn,
+  .otp-box,
+  .verify-screen .btn-primary {
+    transition: none;
+  }
 }
