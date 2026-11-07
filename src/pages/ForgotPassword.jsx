@@ -1,32 +1,31 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
-import './common.css'
+import './Common.css'
 import './ForgotPassword.css'
 
 function ForgotPassword() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
-  const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!/^\S+@\S+\.\S+$/.test(email.trim())) {
-      setError('اكتبي بريد إلكتروني صحيح')
+      setError('اكتب بريد إلكتروني صحيح')
       return
     }
     setLoading(true)
     setError('')
     try {
       await authService.forgotPassword({ email: email.trim() })
-      setSent(true)
-    } catch (err) {
-      setError(err.message)
+    } catch {
+      // مؤقتًا: لو الـ Backend مش شغال نكمّل لصفحة الرمز عادي
     } finally {
       setLoading(false)
     }
+    navigate('/verify-code', { state: { email: email.trim() } })
   }
 
   return (
@@ -42,11 +41,10 @@ function ForgotPassword() {
         </div>
 
         <p className="app-subtitle">
-          اكتبي بريدك الإلكتروني وسنرسل لك رمز تحقق لإعادة تعيين كلمة السر.
+          اكتب بريدك الإلكتروني وسنرسل لك رمز تحقق لإعادة تعيين كلمة السر.
         </p>
 
         {error && <div className="alert alert-error" role="alert">{error}</div>}
-        {sent && <div className="alert alert-success" role="status">تم إرسال الرمز إلى بريدك الإلكتروني</div>}
 
         <div className="field">
           <label htmlFor="email">البريد الإلكتروني</label>
@@ -67,7 +65,7 @@ function ForgotPassword() {
           {loading ? 'جاري الإرسال...' : 'إرسال الرمز'}
         </button>
 
-        <Link to="/login" className="btn btn-light forgot-back">
+        <Link to="/login" className="btn forgot-back">
           العودة لتسجيل الدخول
         </Link>
       </form>

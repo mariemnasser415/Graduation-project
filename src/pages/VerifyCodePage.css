@@ -1,0 +1,63 @@
+.verify-email {
+  margin: -6px 0 0;
+  color: var(--muted);
+  font-size: 18px;
+  text-align: right;
+}
+
+.otp-row {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin: 12px 0 4px;
+}
+
+.otp-box {
+  width: 56px;
+  height: 64px;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  background: var(--white);
+  color: var(--text);
+  font: inherit;
+  font-size: 28px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.otp-box:focus {
+  outline: none;
+  border-color: var(--brand);
+}
+
+.otp-box-error {
+  border-color: var(--error);
+}
+
+.verify-timer {
+  margin: 8px 0;
+  text-align: center;
+  font-size: 18px;
+  color: var(--text);
+}
+
+.verify-resend {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--brand);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* زرار "العودة" أبيض زي التصميم */
+.verify-back {
+  background: var(--white);
+  color: var(--text);
+}
+
+@media (max-width: 420px) {
+  .otp-row { gap: 8px; }
+  .otp-box { width: 46px; height: 56px; font-size: 24px; }
+}
