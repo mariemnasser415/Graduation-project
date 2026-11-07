@@ -5,6 +5,7 @@ import { addNotification } from '../Services/notifications'
 import './common.css'
 import './LoginPage.css'
 
+
 function LoginPage() {
   const navigate = useNavigate()
   const [identifier, setIdentifier] = useState('')
