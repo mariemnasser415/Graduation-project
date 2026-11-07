@@ -6,6 +6,7 @@ import {
   validatePassword,
   validateConfirm,
 } from '../Services/validators'
+import { addNotification } from '../Services/notifications'
 import './RegisterPage.css'
 
 function Field({ id, label, error, children }) {
@@ -91,6 +92,7 @@ function RegisterPage() {
       localStorage.setItem('users', JSON.stringify(users))
       localStorage.setItem('user', JSON.stringify(newUser))
 
+      addNotification('تم إنشاء حسابك بنجاح.')
       navigate('/dashboard', { replace: true })
     } catch {
       setServerError('تعذر إنشاء الحساب. حاولي مرة أخرى.')
