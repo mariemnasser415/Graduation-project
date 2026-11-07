@@ -48,7 +48,7 @@ function ProfileEditPage() {
             <input
               value={user.fullName || ''}
               onChange={(event) => update('fullName', event.target.value)}
-              placeholder="اكتبي اسمك بالكامل"
+              placeholder="اكتب اسمك بالكامل"
               required
             />
           </label>
@@ -106,7 +106,7 @@ function ProfileEditPage() {
               max="120"
               value={user.age || ''}
               onChange={(event) => update('age', event.target.value)}
-              placeholder="اكتبي عمرك"
+              placeholder="اكتب عمرك"
             />
           </label>
 
