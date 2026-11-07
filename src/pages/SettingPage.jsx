@@ -5,10 +5,10 @@ import './common.css'
 import './SettingPage.css'
 
 const settingsLinks = [
-  { label: 'تعديل البيانات', to: '/profilePage' },
-  { label: 'تغيير كلمة السر', to: '/change-password' },
-  { label: 'إنشاء عقد الآن', to: '/new-contract' },
-  { label: 'المساعد الذكي', to: '/Chat' },
+  { label: 'تعديل البيانات', to: '/profile/edit' },
+  { label: 'تغيير كلمة السر', to: '/forgot-password' },
+  { label: 'إنشاء عقد الآن', to: '/analyze' },
+  { label: 'المساعد الذكي', to: '/chat' },
 ]
 
 function Chevron() {
