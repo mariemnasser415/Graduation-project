@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
+import { addNotification } from '../Services/notifications'
 import { validatePassword, validateConfirm } from '../Services/validators'
 import './Common.css'
 import './ResetPasswordPage.css'
@@ -18,36 +19,56 @@ function ResetPasswordPage() {
   const [done, setDone] = useState(false)
   const [loading, setLoading] = useState(false)
 
-  // لو حد فتح الصفحة من غير ما يعدي على التحقق نرجّعه
-  if (!email || !code) return <Navigate to="/forgot-password" replace />
+  if (!email || !code) {
+    return <Navigate to="/forgot-password" replace />
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+
     const newErrors = {
       password: validatePassword(password),
       confirm: validateConfirm(password, confirm),
     }
     setErrors(newErrors)
+
     if (newErrors.password || newErrors.confirm) return
 
     setLoading(true)
     setError('')
+
     try {
       await authService.resetPassword({ email, code, password })
+
+      addNotification('تم تغيير كلمة السر بنجاح.')
       setDone(true)
       setTimeout(() => navigate('/login', { replace: true }), 1500)
     } catch (err) {
-      setError(err.message)
+      setError(err.message || 'تعذر تغيير كلمة السر. حاولي مرة أخرى.')
       setLoading(false)
     }
   }
 
   return (
-   <div className="app-page reset-screen">
+    <div className="app-page reset-screen">
       <form className="app-container" onSubmit={handleSubmit} noValidate>
         <div className="app-header">
-          <button type="button" className="back-btn" onClick={() => navigate(-1)} aria-label="رجوع">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          <button
+            type="button"
+            className="back-btn"
+            onClick={() => navigate(-1)}
+            aria-label="رجوع"
+          >
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M9 6l6 6-6 6" />
             </svg>
           </button>
@@ -56,7 +77,12 @@ function ResetPasswordPage() {
 
         <p className="app-subtitle">اكتب كلمة السر الجديدة لحسابك.</p>
 
-        {error && <div className="alert alert-error" role="alert">{error}</div>}
+        {error && (
+          <div className="alert alert-error" role="alert">
+            {error}
+          </div>
+        )}
+
         {done && (
           <div className="alert alert-success" role="status">
             تم تغيير كلمة السر بنجاح، جاري تحويلك لتسجيل الدخول...
@@ -72,10 +98,15 @@ function ResetPasswordPage() {
             dir="ltr"
             autoComplete="new-password"
             value={password}
-            onChange={(e) => { setPassword(e.target.value); setErrors({}) }}
+            onChange={(e) => {
+              setPassword(e.target.value)
+              setErrors({})
+            }}
             disabled={loading}
           />
-          {errors.password && <p className="field-error">{errors.password}</p>}
+          {errors.password && (
+            <p className="field-error">{errors.password}</p>
+          )}
         </div>
 
         <div className={`field${errors.confirm ? ' has-error' : ''}`}>
@@ -87,13 +118,22 @@ function ResetPasswordPage() {
             dir="ltr"
             autoComplete="new-password"
             value={confirm}
-            onChange={(e) => { setConfirm(e.target.value); setErrors({}) }}
+            onChange={(e) => {
+              setConfirm(e.target.value)
+              setErrors({})
+            }}
             disabled={loading}
           />
-          {errors.confirm && <p className="field-error">{errors.confirm}</p>}
+          {errors.confirm && (
+            <p className="field-error">{errors.confirm}</p>
+          )}
         </div>
 
-        <button type="submit" className="btn btn-primary reset-submit" disabled={loading}>
+        <button
+          type="submit"
+          className="btn btn-primary reset-submit"
+          disabled={loading}
+        >
           {loading ? 'جاري الحفظ...' : 'حفظ كلمة السر'}
         </button>
       </form>
