@@ -39,7 +39,7 @@ function SettingPage() {
   const settingsLinks = [
     { label: t('editProfile'), to: '/profile/edit' },
     { label: t('changePassword'), to: '/forgot-password' },
-    { label: t('createContract'), to: '/tenant-data' },
+    { label: t('createContract'), to: '/contract-type' },
     { label: t('notifications'), to: '/notifications' },
     { label: t('assistant'), to: '/chat' },
   ]
