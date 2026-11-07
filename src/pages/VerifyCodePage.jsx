@@ -94,7 +94,7 @@ function VerifyCodePage() {
   }
 
   return (
-    <div className="app-page">
+<div className="app-page verify-screen">
       <form className="app-container" onSubmit={handleSubmit} noValidate>
         <div className="app-header">
           <button type="button" className="back-btn" onClick={() => navigate(-1)} aria-label="رجوع">
