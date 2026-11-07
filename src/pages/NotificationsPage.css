@@ -1,0 +1,47 @@
+.notifications-screen {
+  min-height: 100vh;
+  align-items: flex-start;
+  padding: 40px 18px;
+  background: #f4f0eb;
+}
+
+.notifications-screen .app-container {
+  width: min(100%, 680px);
+  gap: 20px;
+}
+
+.notifications-card {
+  padding: 8px 24px;
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgb(57 41 25 / 8%);
+}
+
+.notification-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eee8df;
+}
+
+.notification-option:last-child {
+  border-bottom: 0;
+}
+
+.notification-option strong {
+  color: #382a19;
+}
+
+.notification-option p {
+  margin: 5px 0 0;
+  color: #81786d;
+  font-size: 14px;
+}
+
+@media (max-width: 560px) {
+  .notifications-card {
+    padding: 6px 16px;
+  }
+}
