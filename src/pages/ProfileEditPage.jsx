@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { addNotification } from '../Services/notifications'
 import './common.css'
 import './ProfileEditPage.css'
 
@@ -23,12 +24,18 @@ function ProfileEditPage() {
 
   function handleSubmit(event) {
     event.preventDefault()
-    localStorage.setItem('user', JSON.stringify(user))
-    setSaved(true)
+
+    try {
+      localStorage.setItem('user', JSON.stringify(user))
+      addNotification('تم تعديل بياناتك بنجاح.')
+      setSaved(true)
+    } catch {
+      setSaved(false)
+    }
   }
 
   return (
-  <main className="app-page profile-screen profile-edit-screen" dir="rtl">
+    <main className="app-page profile-screen profile-edit-screen" dir="rtl">
       <section className="app-container">
         <header className="app-header">
           <button
@@ -58,10 +65,18 @@ function ProfileEditPage() {
             <input
               type="email"
               dir="ltr"
-              value={user.email || (user.identifier?.includes('@') ? user.identifier : '')}
+              value={
+                user.email ||
+                (user.identifier?.includes('@') ? user.identifier : '')
+              }
               onChange={(event) => {
-                update('email', event.target.value)
-                update('identifier', event.target.value)
+                const email = event.target.value
+                setUser((current) => ({
+                  ...current,
+                  email,
+                  identifier: email,
+                }))
+                setSaved(false)
               }}
               placeholder="name@example.com"
             />
@@ -127,7 +142,7 @@ function ProfileEditPage() {
 
           {saved && (
             <p className="profile-success" role="status">
-              تم حفظ البيانات
+              تم حفظ البيانات وإضافة إشعار بنجاح.
             </p>
           )}
         </form>
