@@ -7,7 +7,7 @@ function MainLayout() {
     <div className="layout">
       <aside className="sidebar">
 
-        <Link to="/dashboard" className="sidebar-brand">
+        <Link to="/dashboard" className="sidebar-brand" aria-label="LegalLens AI">
           <img src="/legallens-logo.svg" alt="LegalLens AI" />
         </Link>
         <nav className="sidebar-nav">
