@@ -37,9 +37,7 @@
   transition: transform 220ms ease, filter 220ms ease;
 }
 
-.sidebar-brand:hover {
-  background: var(--color-background);
-}
+
 
 .sidebar-brand:hover img {
   transform: translateY(-2px) scale(1.03);
