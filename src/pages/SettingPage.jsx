@@ -1,16 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
 import { addNotification } from '../Services/notifications'
+import { useLanguage } from '../LanguageContext'
 import './common.css'
 import './SettingPage.css'
-
-const settingsLinks = [
-  { label: 'تعديل البيانات', to: '/profile/edit' },
-  { label: 'تغيير كلمة السر', to: '/forgot-password' },
-  { label: 'إنشاء عقد الآن', to: '/analyze' },
-  { label: 'الإشعارات', to: '/notifications' },
-  { label: 'المساعد الذكي', to: '/chat' },
-]
 
 function Chevron() {
   return (
@@ -47,17 +40,34 @@ function LinkRow({ label, to }) {
 
 function SettingPage() {
   const navigate = useNavigate()
+  const { language, setLanguage, t } = useLanguage()
+
+  function handleLanguageChange(event) {
+    setLanguage(event.target.value)
+  }
 
   function handleLogout() {
-    addNotification('تم تسجيل خروجك بنجاح.')
+    addNotification(
+      language === 'en'
+        ? 'You have been logged out successfully.'
+        : 'تم تسجيل خروجك بنجاح.',
+    )
     authService.logout()
     navigate('/login', { replace: true })
   }
 
+  const settingsLinks = [
+    { label: t('editProfile'), to: '/profile/edit' },
+    { label: t('changePassword'), to: '/forgot-password' },
+    { label: t('createContract'), to: '/analyze' },
+    { label: t('notifications'), to: '/notifications' },
+    { label: t('assistant'), to: '/chat' },
+  ]
+
   return (
     <div className="app-page">
       <div className="app-container">
-        <h1 className="app-title">الإعدادات</h1>
+        <h1 className="app-title">{t('settings')}</h1>
 
         <div className="card settings-card">
           {settingsLinks.map((link) => (
@@ -65,8 +75,18 @@ function SettingPage() {
           ))}
 
           <div className="settings-row">
-            <span>اللغة</span>
-            <span className="settings-value">العربية</span>
+            <label htmlFor="language-select">{t('language')}</label>
+
+            <select
+              id="language-select"
+              className="settings-value"
+              value={language}
+              onChange={handleLanguageChange}
+              aria-label={t('language')}
+            >
+              <option value="ar">العربية</option>
+              <option value="en">English</option>
+            </select>
           </div>
         </div>
 
@@ -75,7 +95,7 @@ function SettingPage() {
           className="logout-button"
           onClick={handleLogout}
         >
-          تسجيل الخروج
+          {t('logout')}
         </button>
       </div>
     </div>
