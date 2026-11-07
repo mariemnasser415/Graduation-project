@@ -1,3 +1,6 @@
+// وضع تجريبي لحد ما الـ Backend يجهز (غيّره بـ VITE_USE_MOCK=false في ملف .env)
+const USE_MOCK = import.meta.env.VITE_USE_MOCK !== 'false'
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 const API_URL = 'http://localhost:5000/api/auth'
 
 export const authService = {
@@ -44,6 +47,11 @@ export const authService = {
 
   // نسيت كلمة السر
   async forgotPassword({ email }) {
+    if (USE_MOCK) {
+      await wait(600)
+      return { message: 'تم إرسال الرمز' }
+    }
+
     const res = await fetch(`${API_URL}/forgot-password`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -54,6 +62,55 @@ export const authService = {
 
     if (!res.ok) {
       throw new Error(data.message || 'تعذر إرسال رمز استعادة كلمة السر')
+    }
+
+    return data
+  },
+
+
+  // التحقق من رمز الاستعادة
+  async verifyCode({ email, code }) {
+    if (USE_MOCK) {
+      await wait(600)
+      if (code !== '123456') {
+        throw new Error('رمز التحقق غير صحيح (الرمز التجريبي: 123456)')
+      }
+      return { message: 'تم التحقق' }
+    }
+
+    const res = await fetch(`${API_URL}/verify-code`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code }),
+    })
+
+    const data = await res.json().catch(() => ({}))
+
+    if (!res.ok) {
+      throw new Error(data.message || 'رمز التحقق غير صحيح')
+    }
+
+    return data
+  },
+
+
+  // تعيين كلمة سر جديدة
+  async resetPassword({ email, code, password }) {
+    if (USE_MOCK) {
+      await wait(600)
+      return { message: 'تم تغيير كلمة السر' }
+    }
+
+    const res = await fetch(`${API_URL}/reset-password`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, code, password }),
+    })
+
+    const data = await res.json().catch(() => ({}))
+
+    if (!res.ok) {
+      throw new Error(data.message || 'تعذر تغيير كلمة السر')
     }
 
     return data

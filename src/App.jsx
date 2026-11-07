@@ -10,8 +10,11 @@ import ProfilePage from './pages/ProfilePage'
 import RegisterPage from './pages/RegisterPage'
 import SettingPage from './pages/SettingPage'
 import ForgotPassword from './pages/ForgotPassword'
+import VerifyCodePage from './pages/VerifyCodePage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 import ContractUploadPage from './pages/ContractUploadPage'
 import ResultPage from './pages/ResultPage'
+
 function App() {
   return (
     <Routes>
@@ -22,6 +25,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/verify-code" element={<VerifyCodePage />} />
 
       {/* صفحات التطبيق */}
       <Route element={<MainLayout />}>
@@ -31,7 +35,8 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/setting" element={<SettingPage />} />
         <Route path="/analyze" element={<ContractUploadPage />} />
-      <Route path="/analysis-results" element={<ResultPage />} />
+        <Route path="/analysis-results" element={<ResultPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
       </Route>
 
       {/* أي مسار غلط يرجع للبداية */}
