@@ -15,15 +15,32 @@
   font: inherit;
   font-size: 20px;
   text-align: right;
+  text-decoration: none;
+}
+
+/* شكل روابط الإعدادات */
+a.settings-row,
+a.settings-row:visited {
+  color: var(--text);
+  text-decoration: none;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+/* تكبير الصف عند مرور الماوس */
+a.settings-row:hover {
+  color: var(--brand);
+  text-decoration: none;
+  transform: scale(1.03);
 }
 
 button.settings-row {
   cursor: pointer;
-  transition: color 180ms ease, background-color 180ms ease;
+  transition: color 180ms ease, transform 180ms ease;
 }
 
 button.settings-row:hover {
   color: var(--brand);
+  transform: scale(1.03);
 }
 
 .settings-row + .settings-row {
@@ -85,7 +102,8 @@ div.settings-row {
 }
 
 .logout-button:focus-visible,
-button.settings-row:focus-visible {
+button.settings-row:focus-visible,
+a.settings-row:focus-visible {
   outline: 2px solid var(--brand);
   outline-offset: 3px;
 }
