@@ -18,6 +18,8 @@ import ProfileEditPage from './pages/ProfileEditPage'
 import NotificationsPage from './pages/NotificationsPage'
 import TenantInfoPage from './pages/TenantInfoPage'
 import ContractTypePage from './pages/ContractTypePage'
+import LandlordInfoPage from './pages/LandlordInfoPage' // ← جديد
+
 function App() {
   return (
     <Routes>
@@ -40,6 +42,7 @@ function App() {
         <Route path="profile/edit" element={<ProfileEditPage />} />
         <Route path="notifications" element={<NotificationsPage />} />
         <Route path="tenant-data" element={<TenantInfoPage />} />
+        <Route path="landlord-data" element={<LandlordInfoPage />} /> {/* ← جديد */}
         <Route path="contract-type" element={<ContractTypePage />} />
       </Route>
 
