@@ -23,25 +23,26 @@
   justify-content: center;
   margin: 0 auto 32px;
   padding: 6px;
-  border-radius: var(--radius);
+  overflow: visible;
   text-decoration: none;
-  transition: background-color 180ms ease;
 }
 
 .sidebar-brand img {
   display: block;
   width: 100%;
-  max-height: 90px;
+  max-height: 130px;
   object-fit: contain;
   filter: drop-shadow(0 4px 6px rgb(55 37 14 / 28%));
-  transition: transform 220ms ease, filter 220ms ease;
+  transition: transform 250ms ease, filter 250ms ease;
 }
 
-
-
 .sidebar-brand:hover img {
-  transform: translateY(-2px) scale(1.03);
-  filter: drop-shadow(0 7px 9px rgb(55 37 14 / 42%));
+  transform: translateY(-4px) scale(1.06);
+  filter: drop-shadow(0 8px 12px rgb(154 119 56 / 45%));
+}
+
+.sidebar-brand:active img {
+  transform: scale(0.98);
 }
 
 .sidebar-nav {
@@ -55,11 +56,13 @@
   border-radius: var(--radius);
   color: var(--color-text-muted);
   text-decoration: none;
-  transition: background-color 180ms ease, color 180ms ease, transform 180ms ease;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .sidebar-nav a:hover {
- 
   transform: translateX(-5px);
 }
 
@@ -67,6 +70,12 @@
   background: var(--color-primary);
   color: #fff;
   font-weight: 700;
+}
+
+.sidebar-nav a:focus-visible,
+.sidebar-brand:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
 }
 
 .layout-content {
@@ -97,7 +106,6 @@
 
   .sidebar-brand img {
     max-height: 70px;
-    mix-blend-mode: multiply;
   }
 
   .sidebar-nav {
@@ -117,7 +125,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .sidebar-brand,
   .sidebar-brand img,
   .sidebar-nav a {
     transition: none;
