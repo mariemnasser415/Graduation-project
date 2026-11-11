@@ -34,7 +34,6 @@ function ContractTypePage() {
       contractType === 'other' ? otherContractType.trim() : '',
     )
 
-    // الانتقال لصفحة بيانات الطرف الأول
     navigate('/party-info/first')
   }
 
