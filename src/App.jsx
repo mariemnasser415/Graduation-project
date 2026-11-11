@@ -45,7 +45,7 @@ function App() {
         <Route path="tenant-data" element={<TenantInfoPage />} />
         <Route path="landlord-data" element={<LandlordInfoPage />} /> {/* ← جديد */}
         <Route path="contract-type" element={<ContractTypePage />} />
-        <Route path="party-info/:step" element={<PartyInfoPage />} />
+       <Route path="party-info/:step" element={<PartyInfoPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
