@@ -31,6 +31,24 @@
   box-shadow: 0 12px 32px rgb(55 37 14 / 8%);
 }
 
+.tenant-party {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-width: 0;
+  margin: 0;
+  padding: 22px;
+  border: 1px solid var(--color-border, #e7e0d5);
+  border-radius: 18px;
+}
+
+.tenant-party legend {
+  padding: 0 10px;
+  color: var(--color-primary, #654f22);
+  font-size: 20px;
+  font-weight: 700;
+}
+
 .tenant-field {
   display: flex;
   flex-direction: column;
@@ -97,6 +115,15 @@
     gap: 16px;
     padding: 20px 16px;
     border-radius: 18px;
+  }
+
+  .tenant-party {
+    gap: 16px;
+    padding: 16px 12px;
+  }
+
+  .tenant-party legend {
+    font-size: 18px;
   }
 
   .tenant-field {
