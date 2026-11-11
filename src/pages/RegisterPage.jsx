@@ -6,9 +6,9 @@ import {
   validatePassword,
   validateConfirm,
 } from '../Services/validators'
+import { addNotification } from '../Services/notifications'
 import './RegisterPage.css'
 
-// حقل واحد: label + input + رسالة خطأ
 function Field({ id, label, error, children }) {
   return (
     <div className={`register-field${error ? ' has-error' : ''}`}>
@@ -44,13 +44,16 @@ function RegisterPage() {
   }
 
   const handleChange = (name) => (e) => {
-    setValues((v) => ({ ...v, [name]: e.target.value }))
-    if (errors[name]) setErrors((er) => ({ ...er, [name]: '' }))
+    setValues((current) => ({ ...current, [name]: e.target.value }))
+    if (errors[name]) {
+      setErrors((current) => ({ ...current, [name]: '' }))
+    }
     if (serverError) setServerError('')
   }
 
-  const handleBlur = (name) => () =>
-    setErrors((er) => ({ ...er, [name]: validators[name]() }))
+  const handleBlur = (name) => () => {
+    setErrors((current) => ({ ...current, [name]: validators[name]() }))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -65,35 +68,38 @@ function RegisterPage() {
     setLoading(true)
     setServerError('')
 
-try {
-  const identifier = values.identifier.trim().toLowerCase()
-  const users = JSON.parse(localStorage.getItem('users') || '[]')
+    try {
+      const identifier = values.identifier.trim().toLowerCase()
+      const savedUsers = JSON.parse(localStorage.getItem('users') || '[]')
+      const users = Array.isArray(savedUsers) ? savedUsers : []
 
-  const accountExists = users.some(
-    (user) => user.identifier.toLowerCase() === identifier,
-  )
+      const accountExists = users.some(
+        (user) => user.identifier?.trim().toLowerCase() === identifier,
+      )
 
-  if (accountExists) {
-    setServerError('هذا البريد الإلكتروني أو الرقم مسجل بالفعل.')
-    return
+      if (accountExists) {
+        setServerError('هذا البريد الإلكتروني أو الرقم مسجل بالفعل.')
+        return
+      }
+
+      const newUser = {
+        fullName: values.fullName.trim(),
+        identifier,
+        email: identifier.includes('@') ? identifier : '',
+      }
+
+      users.push(newUser)
+      localStorage.setItem('users', JSON.stringify(users))
+      localStorage.setItem('user', JSON.stringify(newUser))
+
+      addNotification('تم إنشاء حسابك بنجاح.')
+      navigate('/dashboard', { replace: true })
+    } catch {
+      setServerError('تعذر إنشاء الحساب. حاولي مرة أخرى.')
+    } finally {
+      setLoading(false)
+    }
   }
-
-  const newUser = {
-    fullName: values.fullName.trim(),
-    identifier,
-    email: identifier.includes('@') ? identifier : '',
-  }
-
-  users.push(newUser)
-  localStorage.setItem('users', JSON.stringify(users))
-  localStorage.setItem('user', JSON.stringify(newUser))
-
-  navigate('/dashboard', { replace: true })
-} catch {
-  setServerError('تعذر إنشاء الحساب. حاولي مرة أخرى.')
-} finally {
-  setLoading(false)
-}}
 
   const inputProps = (name) => ({
     id: name,
@@ -109,7 +115,25 @@ try {
   return (
     <div className="register-page">
       <div className="register-container">
-        <h1 className="register-title">إنشاء حساب جديد</h1>
+        <div className="register-header">
+          <div className="icon-box" aria-hidden="true">
+            <svg
+              width="26"
+              height="26"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+              <path d="M14 3v5h5M9 13h6M9 17h6" />
+            </svg>
+          </div>
+
+          <h1 className="register-title">إنشاء حساب جديد</h1>
+        </div>
 
         <form className="register-form" onSubmit={handleSubmit} noValidate>
           {serverError && (
@@ -118,15 +142,11 @@ try {
             </div>
           )}
 
-          <Field
-            id="fullName"
-            label="الاسم كامل"
-            error={errors.fullName}
-          >
+          <Field id="fullName" label="الاسم كامل" error={errors.fullName}>
             <input
               {...inputProps('fullName')}
               type="text"
-              placeholder="مروان أحمد"
+              placeholder="الاسم"
               autoComplete="name"
             />
           </Field>
@@ -140,17 +160,13 @@ try {
               {...inputProps('identifier')}
               type="text"
               dir="ltr"
-              placeholder="marwan@gmail.com"
+              placeholder="example@gmail.com"
               autoComplete="username"
             />
           </Field>
 
           <div className="register-row">
-            <Field
-              id="password"
-              label="كلمة السر"
-              error={errors.password}
-            >
+            <Field id="password" label="كلمة السر" error={errors.password}>
               <input
                 {...inputProps('password')}
                 type="password"

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { addNotification } from '../Services/notifications'
 import './ChatPage.css'
 import ErrorMessage from '../components/ErrorMessage'
 
@@ -60,6 +61,7 @@ function loadConversations() {
       }
     }
   } catch {
+    // نبدأ بمحادثة جديدة إذا تعذرت قراءة المحادثات المحفوظة
   }
 
   return [createConversation()]
@@ -103,6 +105,8 @@ function ChatPage() {
     setReplyTo(null)
     setOpenMenuId(null)
     setEditingConversationId(null)
+
+    addNotification('تم إنشاء محادثة جديدة مع المساعد الذكي.')
   }
 
   function startRenameConversation(conversation) {
@@ -123,6 +127,7 @@ function ChatPage() {
 
     setEditingConversationId(null)
     setEditingTitle('')
+    addNotification('تم تعديل اسم المحادثة.')
   }
 
   function cancelRenameConversation() {
@@ -157,13 +162,24 @@ function ChatPage() {
     if (editingConversationId === id) {
       cancelRenameConversation()
     }
+
+    addNotification('تم حذف المحادثة.')
   }
 
   function togglePinConversation(id) {
+    const conversation = conversations.find((item) => item.id === id)
+    if (!conversation) return
+
+    const willPin = !conversation.pinned
+
     setConversations((prev) =>
       prev.map((item) =>
-        item.id === id ? { ...item, pinned: !item.pinned } : item,
+        item.id === id ? { ...item, pinned: willPin } : item,
       ),
+    )
+
+    addNotification(
+      willPin ? 'تم تثبيت المحادثة.' : 'تم إلغاء تثبيت المحادثة.',
     )
   }
 
@@ -233,6 +249,8 @@ function ChatPage() {
             : conversation,
         ),
       )
+
+      addNotification('تم إرسال سؤالك إلى المساعد الذكي.')
     } catch {
       setError('تعذر الحصول على إجابة، حاول مرة أخرى')
     } finally {
@@ -240,8 +258,8 @@ function ChatPage() {
     }
   }
 
-  function handleSubmit(e) {
-    e.preventDefault()
+  function handleSubmit(event) {
+    event.preventDefault()
     sendMessage(input)
   }
 
@@ -270,13 +288,13 @@ function ChatPage() {
                   <input
                     autoFocus
                     value={editingTitle}
-                    onChange={(e) => setEditingTitle(e.target.value)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter') {
+                    onChange={(event) => setEditingTitle(event.target.value)}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter') {
                         saveConversationName(conversation.id)
                       }
 
-                      if (e.key === 'Escape') {
+                      if (event.key === 'Escape') {
                         cancelRenameConversation()
                       }
                     }}
@@ -302,7 +320,9 @@ function ChatPage() {
                   <button
                     type="button"
                     className={`conversation-item ${
-                      conversation.id === currentConversation?.id ? 'active' : ''
+                      conversation.id === currentConversation?.id
+                        ? 'active'
+                        : ''
                     }`}
                     onClick={() => {
                       setCurrentId(conversation.id)
@@ -337,9 +357,7 @@ function ChatPage() {
                       <div className="conversation-menu">
                         <button
                           type="button"
-                          onClick={() =>
-                            startRenameConversation(conversation)
-                          }
+                          onClick={() => startRenameConversation(conversation)}
                         >
                           تعديل الاسم
                         </button>
@@ -454,7 +472,7 @@ function ChatPage() {
           <div className="chat-input-controls">
             <input
               value={input}
-              onChange={(e) => setInput(e.target.value)}
+              onChange={(event) => setInput(event.target.value)}
               placeholder="اكتب سؤالك هنا"
             />
 

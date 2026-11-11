@@ -1,0 +1,109 @@
+.profile-edit-screen {
+  min-height: 100vh;
+  align-items: center;
+  padding: 32px 18px;
+  background:
+    radial-gradient(ellipse at 18% 15%, rgb(183 146 79 / 10%), transparent 32%),
+    radial-gradient(ellipse at 86% 88%, rgb(112 82 31 / 7%), transparent 34%),
+    #f3efe8;
+}
+
+.profile-edit-screen .app-container {
+  width: min(100%, 680px);
+  gap: 20px;
+}
+
+.profile-edit-screen .app-header {
+  align-items: center;
+  gap: 14px;
+}
+
+.profile-edit-screen .app-title {
+  color: #382a19;
+  font-size: 32px;
+}
+
+.profile-edit-screen .back-btn {
+  width: 54px;
+  height: 54px;
+  border: 1px solid #b99a5a;
+  border-radius: 16px;
+  background: linear-gradient(145deg, #80602d, #4e391a);
+  color: #fff;
+}
+
+.profile-edit-screen .profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border: 1px solid #e6dccb;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgb(57 41 25 / 8%);
+}
+
+.profile-edit-screen .profile-row {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 8px;
+  color: #493719;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.profile-edit-screen .profile-row input,
+.profile-edit-screen .profile-row select {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  padding: 10px 14px;
+  border: 1px solid #e2d9cb;
+  border-radius: 12px;
+  background: #fbfaf7;
+  color: #382a19;
+  font: inherit;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.profile-edit-screen .profile-row input:focus,
+.profile-edit-screen .profile-row select:focus {
+  border-color: #9a7738;
+  outline: none;
+  box-shadow: 0 0 0 4px rgb(154 119 56 / 13%);
+}
+
+.profile-edit-screen .profile-form > button {
+  min-height: 54px;
+  margin-top: 6px;
+  border: 0;
+  border-radius: 13px;
+  background: #654f22;
+  color: #fff;
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.profile-edit-screen .profile-success {
+  margin: 0;
+  color: #286239;
+  text-align: center;
+}
+
+@media (max-width: 560px) {
+  .profile-edit-screen .app-container {
+    width: 100%;
+  }
+
+  .profile-edit-screen .profile-form {
+    padding: 20px 16px;
+  }
+
+  .profile-edit-screen .app-title {
+    font-size: 26px;
+  }
+}

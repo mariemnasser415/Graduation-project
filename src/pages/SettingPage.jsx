@@ -1,15 +1,9 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { authService } from '../Services/authservice'
+import { addNotification } from '../Services/notifications'
+import { useLanguage } from '../LanguageContext'
 import './common.css'
 import './SettingPage.css'
-
-const settingsLinks = [
-  { label: 'تعديل البيانات', to: '/profilePage' },
-  { label: 'تغيير كلمة السر', to: '/change-password' },
-  { label: 'إنشاء عقد الآن', to: '/new-contract' },
-  { label: 'المساعد الذكي', to: '/Chat' },
-]
 
 function Chevron() {
   return (
@@ -30,25 +24,36 @@ function Chevron() {
 }
 
 function LinkRow({ label, to }) {
-  const navigate = useNavigate()
-
   return (
-    <button
-      type="button"
-      className="settings-row"
-      onClick={() => navigate(to)}
-    >
+    <Link to={to} className="settings-row">
       <span>{label}</span>
       <Chevron />
-    </button>
+    </Link>
   )
 }
 
 function SettingPage() {
   const navigate = useNavigate()
-  const [notifications, setNotifications] = useState(true)
+  const { language, setLanguage, t } = useLanguage()
 
-  const handleLogout = () => {
+  const settingsLinks = [
+    { label: t('editProfile'), to: '/profile/edit' },
+    { label: t('changePassword'), to: '/forgot-password' },
+    { label: t('createContract'), to: '/contract-type' },
+    { label: t('notifications'), to: '/notifications' },
+    { label: t('assistant'), to: '/chat' },
+  ]
+
+  function handleLanguageChange(event) {
+    setLanguage(event.target.value)
+  }
+
+  function handleLogout() {
+    addNotification(
+      language === 'en'
+        ? 'You have been logged out successfully.'
+        : 'تم تسجيل خروجك بنجاح.',
+    )
     authService.logout()
     navigate('/login', { replace: true })
   }
@@ -56,31 +61,27 @@ function SettingPage() {
   return (
     <div className="app-page">
       <div className="app-container">
-        <h1 className="app-title">الإعدادات</h1>
+        <h1 className="app-title">{t('settings')}</h1>
 
         <div className="card settings-card">
-          {settingsLinks.slice(0, 3).map((link) => (
+          {settingsLinks.map((link) => (
             <LinkRow key={link.to} {...link} />
           ))}
 
           <div className="settings-row">
-            <span>الإشعارات</span>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={notifications}
-              aria-label="الإشعارات"
-              className={`toggle${notifications ? ' on' : ''}`}
-              onClick={() => setNotifications((value) => !value)}
-            />
-          </div>
+            <label htmlFor="language-select">{t('language')}</label>
 
-          <div className="settings-row">
-            <span>اللغة</span>
-            <span className="settings-value">العربية</span>
+            <select
+              id="language-select"
+              className="settings-value"
+              value={language}
+              onChange={handleLanguageChange}
+              aria-label={t('language')}
+            >
+              <option value="ar">العربية</option>
+              <option value="en">English</option>
+            </select>
           </div>
-
-          <LinkRow {...settingsLinks[3]} />
         </div>
 
         <button
@@ -88,7 +89,7 @@ function SettingPage() {
           className="logout-button"
           onClick={handleLogout}
         >
-          تسجيل الخروج
+          {t('logout')}
         </button>
       </div>
     </div>
