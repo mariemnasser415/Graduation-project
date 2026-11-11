@@ -13,8 +13,9 @@ function MainLayout() {
           className="sidebar-brand"
           aria-label="LegalLens AI"
         >
-          <img src="/legallens-logo.svg" alt="LegalLens AI" />
-        </Link>
+          <img src="/legallens-logo.jpg/legallens-logo.png" alt="LegalLens" />
+           </Link>
+      
 
         <nav className="sidebar-nav">
           <NavLink to="/dashboard" end>
