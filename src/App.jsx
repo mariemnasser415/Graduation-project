@@ -18,7 +18,8 @@ import ProfileEditPage from './pages/ProfileEditPage'
 import NotificationsPage from './pages/NotificationsPage'
 import TenantInfoPage from './pages/TenantInfoPage'
 import ContractTypePage from './pages/ContractTypePage'
-import LandlordInfoPage from './pages/LandlordInfoPage' // ← جديد
+import LandlordInfoPage from './pages/LandlordInfoPage' 
+import PartyInfoPage from './pages/PartyInfoPage'
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
         <Route path="tenant-data" element={<TenantInfoPage />} />
         <Route path="landlord-data" element={<LandlordInfoPage />} /> {/* ← جديد */}
         <Route path="contract-type" element={<ContractTypePage />} />
+        <Route path="party-info/:step" element={<PartyInfoPage />} />
       </Route>
 
       <Route path="*" element={<Navigate to="/" replace />} />
